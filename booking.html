@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Lesson — On Court Tennis Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --court-green: #1F3A2E;
+    --court-green-deep: #142720;
+    --chalk: #F6F4EC;
+    --ball: #D3E24C;
+    --clay: #C1552E;
+    --ink: #16201A;
+    --line: rgba(22,32,26,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background-color: var(--chalk);
+    background-image:
+      linear-gradient(rgba(31,58,46,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(31,58,46,0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    line-height: 1.55;
+  }
+  h1,h2,.score{ font-family:'Bebas Neue',sans-serif; letter-spacing:0.02em; line-height:0.95; }
+  a{ color:inherit; }
+  .wrap{ max-width: 720px; margin:0 auto; padding: 0 24px; }
+
+  nav{ background: var(--court-green); border-bottom:1px solid rgba(246,244,236,0.15); }
+  nav .wrap{ max-width:1080px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .brand{ color: var(--chalk); font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:0.04em; text-decoration:none;}
+  .brand span{ color: var(--ball); }
+  .back-link{ color: var(--chalk); font-size:14px; font-weight:600; text-decoration:none; opacity:0.85; }
+  .back-link:hover{ opacity:1; }
+
+  header.top{
+    background: radial-gradient(1000px 500px at 15% -20%, #274a3a 0%, var(--court-green) 55%, var(--court-green-deep) 100%);
+    color: var(--chalk);
+    padding: 56px 0 48px;
+  }
+  .eyebrow{ font-size:13px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color: var(--ball); margin-bottom:14px; }
+  header.top h1{ font-size: clamp(38px, 7vw, 58px); }
+  header.top p{ margin-top:14px; color: rgba(246,244,236,0.82); max-width: 54ch; font-size:16px;}
+
+  main{ padding: 48px 0 80px; }
+
+  .form-card{
+    background: #fff; border:1px solid var(--line); border-radius:4px; padding: 36px;
+  }
+  .field{ margin-bottom: 22px; }
+  .field label{ display:block; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color: rgba(22,32,26,0.65); margin-bottom:8px; }
+  .field input, .field select, .field textarea{
+    width:100%; padding: 13px 14px; border:1px solid rgba(22,32,26,0.2); border-radius:3px;
+    font-family:'Work Sans',sans-serif; font-size:16px; color: var(--ink); background: var(--chalk);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline: none; border-color: var(--court-green); box-shadow: 0 0 0 3px rgba(31,58,46,0.12);
+  }
+  .row-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width:560px){ .row-2{ grid-template-columns:1fr; } }
+
+  textarea{ resize: vertical; min-height: 90px; }
+
+  .submit-btn{
+    width:100%; padding: 16px; background: var(--ball); color: var(--court-green-deep);
+    border:none; border-radius:3px; font-weight:700; font-size:16px; cursor:pointer;
+    transition: transform .15s ease;
+  }
+  .submit-btn:hover{ transform: translateY(-2px); }
+  .submit-btn:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
+
+  .form-note{ margin-top:16px; font-size:13px; color: rgba(22,32,26,0.6); text-align:center; }
+  .form-note a{ color: var(--court-green); font-weight:600; }
+
+  .confirm{
+    display:none; background: var(--court-green-deep); color: var(--chalk); border-radius:4px;
+    padding: 32px; margin-top: 24px; text-align:center;
+  }
+  .confirm.show{ display:block; }
+  .confirm h2{ font-size: 28px; color: var(--ball); margin-bottom: 10px; }
+  .confirm p{ color: rgba(246,244,236,0.85); font-size:15px; }
+
+  .safety-note{
+    margin-top: 28px; font-size: 13px; color: rgba(22,32,26,0.6);
+    border-left: 3px solid var(--clay); padding: 4px 0 4px 14px;
+  }
+
+  .payment-card{
+    background: var(--court-green-deep); color: var(--chalk);
+    border-radius: 4px; padding: 28px 32px; margin-top: 24px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  }
+  .payment-card .label{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--ball); font-weight:700; margin-bottom:6px; }
+  .payment-card .value{ font-family:'Bebas Neue',sans-serif; font-size:30px; letter-spacing:0.03em; }
+  .payment-card .note{ font-size:13px; color: rgba(246,244,236,0.7); max-width:32ch; }
+
+  .policy-box{
+    background: #fff; border: 1px solid rgba(22,32,26,0.14); border-left: 4px solid var(--court-green);
+    border-radius: 4px; padding: 22px 26px; margin-bottom: 28px;
+  }
+  .policy-box h3{ font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.03em; color: var(--court-green); margin-bottom:10px; text-transform:uppercase; }
+  .policy-box p{ font-size:14px; color: rgba(22,32,26,0.75); margin-bottom:8px; }
+  .policy-box p:last-child{ margin-bottom:0; }
+  .policy-box strong{ color: var(--ink); }
+
+  .section-divider{
+    display:flex; align-items:center; gap:16px; margin: 56px 0 24px;
+  }
+  .section-divider .line{ flex:1; height:1px; background: rgba(22,32,26,0.15); }
+  .section-divider span{ font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:0.1em; color: rgba(22,32,26,0.45); text-transform:uppercase; }
+
+  .discount-banner{
+    background: var(--clay); color: var(--chalk); border-radius: 4px;
+    padding: 16px 22px; margin-bottom: 22px; font-weight:700; font-size:15px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .discount-banner .tag{
+    background: var(--ball); color: var(--court-green-deep); font-family:'Bebas Neue',sans-serif;
+    font-size:13px; letter-spacing:0.05em; padding: 3px 10px; border-radius:2px; flex-shrink:0;
+  }
+
+  .price-breakdown{
+    background: var(--chalk); border: 1px dashed rgba(22,32,26,0.25); border-radius:4px;
+    padding: 20px 22px; margin-top: 4px; margin-bottom: 22px;
+  }
+  .price-breakdown .line{ display:flex; justify-content:space-between; font-size:14px; padding: 5px 0; }
+  .price-breakdown .line.discount{ color: var(--clay); font-weight:700; }
+  .price-breakdown .line.total{ font-size:20px; font-family:'Bebas Neue',sans-serif; letter-spacing:0.02em; border-top:1px solid rgba(22,32,26,0.15); margin-top:8px; padding-top:12px; }
+
+  .date-row{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .date-row .date-label{ font-size:13px; font-weight:600; color: rgba(22,32,26,0.6); min-width:70px; flex-shrink:0; }
+  .date-row input[type="date"]{
+    flex:1; padding:12px 14px; border:1px solid rgba(22,32,26,0.2); border-radius:3px;
+    font-family:'Work Sans',sans-serif; font-size:16px; color: var(--ink); background: var(--chalk);
+  }
+
+  footer{ background: var(--court-green-deep); color: rgba(246,244,236,0.55); padding: 26px 0; font-size:13px; text-align:center; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html">ON<span>COURT</span></a>
+    <div style="display:flex; align-items:center; gap:20px;">
+      <a class="back-link" href="reviews.html">Reviews</a>
+      <a class="back-link" href="index.html">&larr; Back to home</a>
+    </div>
+  </div>
+</nav>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Book a private lesson</div>
+    <h1>Sign up for a lesson</h1>
+    <p>Fill this out and it'll open a Gmail compose window with everything filled in — just hit send and I'll get back to you to set up a time and court.</p>
+    <p style="margin-top:10px; font-size:14px; color: rgba(246,244,236,0.7);">Choose a single lesson below, or book multiple lessons at once and save.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h2 style="font-size:26px; margin-bottom:6px;">Single Lesson</h2>
+    <p style="font-size:14px; color: rgba(22,32,26,0.65); margin-bottom:20px;">Ages 4–6 — $12/hr · Ages 6–8 — $14/hr · Ages 8+ — $16/hr</p>
+
+    <div class="policy-box">
+      <h3>Cancellation &amp; Weather Policy</h3>
+      <p><strong>24-hour cancellation:</strong> Please cancel or reschedule at least 24 hours before your lesson. Lessons canceled with less notice may not be refunded.</p>
+      <p><strong>Inclement weather:</strong> Lessons are held on outdoor courts. If weather (rain, lightning, extreme heat/cold, etc.) makes it unsafe to play, the lesson will be rescheduled to the next available time at no extra cost — no need to worry about losing your spot.</p>
+    </div>
+
+    <form class="form-card" id="bookingForm">
+      <div class="row-2">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="4" max="99" required>
+          <div id="priceHint" style="margin-top:8px; font-size:13px; font-weight:600; color: var(--court-green);"></div>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="level">Playing level</label>
+        <select id="level" name="level" required>
+          <option value="" disabled selected>Select a level</option>
+          <option value="Beginner — never played or very new">Beginner — never played or very new</option>
+          <option value="Intermediate — comfortable rallying">Intermediate — comfortable rallying</option>
+          <option value="Advanced — plays matches/league or team">Advanced — plays matches/league or team</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="lessonDate">Preferred lesson date</label>
+        <input type="date" id="lessonDate" name="lessonDate" required>
+      </div>
+
+      <div class="price-breakdown" id="singleBreakdown" style="display:none;">
+        <div class="line"><span>Rate per lesson</span><span id="sgRate">—</span></div>
+        <div class="line"><span>Lessons</span><span>1</span></div>
+        <div class="line total"><span>Total</span><span id="sgTotal">—</span></div>
+      </div>
+
+      <div class="field">
+        <label for="message">Anything else? (optional)</label>
+        <textarea id="message" name="message" placeholder="Preferred days/times, goals for lessons, etc."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Send lesson request</button>
+      <p class="form-note">This opens a Gmail compose window with a message ready to send to your coach — nothing is submitted automatically.</p>
+    </form>
+
+    <div class="confirm" id="confirm">
+      <h2>Almost done!</h2>
+      <p>A Gmail compose window should have opened with your request filled in. Just hit send there and your coach will follow up to confirm a time and court.</p>
+      <p style="margin-top:12px; font-size:14px; color: rgba(246,244,236,0.75);">Payment is via Zelle to (470) 938-8287.</p>
+    </div>
+
+    <div class="section-divider"><div class="line"></div><span>Or Save With Multiple Lessons</span><div class="line"></div></div>
+
+    <h2 style="font-size:26px; margin-bottom:6px;">Bulk Booking</h2>
+    <p style="font-size:14px; color: rgba(22,32,26,0.65); margin-bottom:20px;">Book several lessons at once and pay less per lesson.</p>
+
+    <div class="discount-banner">
+      <span class="tag">SAVE</span>
+      <span>Book 2 lessons and save 15% · Book 3–4 lessons and save 20% · Book 5+ lessons and save 25%!</span>
+    </div>
+
+    <form class="form-card" id="bulkForm">
+      <div class="row-2">
+        <div class="field">
+          <label for="bulkName">Full name</label>
+          <input type="text" id="bulkName" name="bulkName" required>
+        </div>
+        <div class="field">
+          <label for="bulkAge">Age</label>
+          <input type="number" id="bulkAge" name="bulkAge" min="4" max="99" required>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="bulkEmail">Email</label>
+          <input type="email" id="bulkEmail" name="bulkEmail" required>
+        </div>
+        <div class="field">
+          <label for="bulkPhone">Phone number</label>
+          <input type="tel" id="bulkPhone" name="bulkPhone" required>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="bulkLevel">Playing level</label>
+          <select id="bulkLevel" name="bulkLevel" required>
+            <option value="" disabled selected>Select a level</option>
+            <option value="Beginner — never played or very new">Beginner — never played or very new</option>
+            <option value="Intermediate — comfortable rallying">Intermediate — comfortable rallying</option>
+            <option value="Advanced — plays matches/league or team">Advanced — plays matches/league or team</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="bulkCount">Number of lessons</label>
+          <select id="bulkCount" name="bulkCount" required>
+            <option value="" disabled selected>Select a number</option>
+            <option value="2">2 lessons — 15% off</option>
+            <option value="3">3 lessons — 20% off</option>
+            <option value="4">4 lessons — 20% off</option>
+            <option value="5">5 lessons — 25% off</option>
+            <option value="6">6 lessons — 25% off</option>
+            <option value="8">8 lessons — 25% off</option>
+            <option value="10">10 lessons — 25% off</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="price-breakdown" id="bulkBreakdown" style="display:none;">
+        <div class="line"><span>Rate per lesson</span><span id="bkRate">—</span></div>
+        <div class="line"><span>Lessons</span><span id="bkCount">—</span></div>
+        <div class="line"><span>Subtotal</span><span id="bkSubtotal">—</span></div>
+        <div class="line discount" id="bkDiscountLine" style="display:none;"><span id="bkDiscountLabel">Discount</span><span id="bkDiscountAmt">—</span></div>
+        <div class="line total"><span>Total</span><span id="bkTotal">—</span></div>
+      </div>
+
+      <div id="bulkDatesContainer" style="display:none;">
+        <label style="display:block; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color: rgba(22,32,26,0.65); margin-bottom:10px;">Pick a date for each lesson</label>
+        <div id="bulkDatesFields"></div>
+      </div>
+
+      <div class="field">
+        <label for="bulkMessage">Anything else? (optional)</label>
+        <textarea id="bulkMessage" name="bulkMessage" placeholder="Preferred days/times, goals for lessons, etc."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Send bulk lesson request</button>
+      <p class="form-note">This opens a Gmail compose window with a message ready to send to your coach — nothing is submitted automatically.</p>
+    </form>
+
+    <div class="confirm" id="bulkConfirm">
+      <h2>Almost done!</h2>
+      <p>A Gmail compose window should have opened with your bulk request filled in. Just hit send there and your coach will follow up to confirm times and courts.</p>
+      <p style="margin-top:12px; font-size:14px; color: rgba(246,244,236,0.75);">Payment is via Zelle to (470) 938-8287.</p>
+    </div>
+
+    <div class="payment-card">
+      <div>
+        <div class="label">Payment · Zelle</div>
+        <div class="value">(470) 938-8287</div>
+      </div>
+      <p class="note">Send payment via Zelle to this number after your lesson is confirmed.</p>
+    </div>
+
+    <div class="payment-card">
+      <div>
+        <div class="label">Payment · Cash</div>
+        <div class="value">Pay in person</div>
+      </div>
+      <p class="note">Cash is also accepted — please have it ready to hand over right before the lesson starts.</p>
+    </div>
+
+    <p class="safety-note">Parents/guardians: please review and send this request together with your child, and confirm lesson times and locations directly with the coach before the first meetup.</p>
+  </div>
+</main>
+
+<footer>
+  © 2026 On Court Tennis Coaching — private lessons with Coach Sugan.
+</footer>
+
+<script>
+  const COACH_EMAIL = "sugan.sen27@gmail.com";
+
+  function priceForAge(age){
+    if (age === '' || isNaN(age)) return null;
+    const a = Number(age);
+    if (a <= 6) return 12;
+    if (a <= 8) return 14;
+    return 16;
+  }
+
+  const ageInput = document.getElementById('age');
+  const priceHint = document.getElementById('priceHint');
+  const singleBreakdown = document.getElementById('singleBreakdown');
+
+  ageInput.addEventListener('input', function(){
+    const price = priceForAge(ageInput.value);
+    priceHint.textContent = price ? `Rate for this age: $${price}/hour` : '';
+
+    if (price){
+      singleBreakdown.style.display = 'block';
+      document.getElementById('sgRate').textContent = `$${price}/hr`;
+      document.getElementById('sgTotal').textContent = `$${price.toFixed(2)}`;
+    } else {
+      singleBreakdown.style.display = 'none';
+    }
+  });
+
+  function formatDateNice(dateStr){
+    if (!dateStr) return '(no date selected)';
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const dateObj = new Date(y, m - 1, d);
+    return dateObj.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  document.getElementById('bookingForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const level = document.getElementById('level').value;
+    const lessonDate = document.getElementById('lessonDate').value;
+    const message = document.getElementById('message').value.trim();
+    const price = priceForAge(age);
+    const niceDate = formatDateNice(lessonDate);
+
+    // Email to the coach
+    const subject = `Lesson Request — ${name}`;
+    const bodyLines = [
+      `New private lesson request:`,
+      ``,
+      `Name: ${name}`,
+      `Age: ${age}`,
+      `Rate: $${price}/hour`,
+      `Lesson date: ${niceDate}`,
+      `Email: ${email}`,
+      `Phone: ${phone}`,
+      `Level: ${level}`,
+      `Message: ${message || '(none)'}`
+    ];
+    const body = bodyLines.join('\n');
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(COACH_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailLink, '_blank');
+
+    // Confirmation email to the customer, addressed to themselves
+    const custSubject = `Your On Court lesson — ${niceDate}`;
+    const custBodyLines = [
+      `Hi ${name},`,
+      ``,
+      `Your tennis lesson request has been submitted:`,
+      ``,
+      `Date: ${niceDate}`,
+      `Rate: $${price}/hour`,
+      `Total cost: $${price.toFixed(2)}`,
+      ``,
+      `This request has also been sent to your coach, who will follow up to confirm the exact time and court.`,
+      ``,
+      `— On Court Tennis Coaching`
+    ];
+    const custBody = custBodyLines.join('\n');
+    const custGmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(custSubject)}&body=${encodeURIComponent(custBody)}`;
+    window.open(custGmailLink, '_blank');
+
+    document.getElementById('confirm').classList.add('show');
+    document.getElementById('confirm').scrollIntoView({behavior:'smooth'});
+  });
+
+  // ---- Bulk booking ----
+  function discountForCount(count){
+    if (count === 2) return 0.15;
+    if (count === 3 || count === 4) return 0.20;
+    if (count >= 5) return 0.25;
+    return 0;
+  }
+
+  const bulkAgeInput = document.getElementById('bulkAge');
+  const bulkCountInput = document.getElementById('bulkCount');
+  const bulkBreakdown = document.getElementById('bulkBreakdown');
+
+  function updateBulkBreakdown(){
+    const age = bulkAgeInput.value;
+    const count = Number(bulkCountInput.value);
+    const rate = priceForAge(age);
+
+    if (!rate || !count){
+      bulkBreakdown.style.display = 'none';
+      return;
+    }
+    bulkBreakdown.style.display = 'block';
+
+    const subtotal = rate * count;
+    const discountPct = discountForCount(count);
+    const discountAmt = subtotal * discountPct;
+    const total = subtotal - discountAmt;
+
+    document.getElementById('bkRate').textContent = `$${rate}/hr`;
+    document.getElementById('bkCount').textContent = count;
+    document.getElementById('bkSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+
+    const discountLine = document.getElementById('bkDiscountLine');
+    if (discountPct > 0){
+      discountLine.style.display = 'flex';
+      document.getElementById('bkDiscountLabel').textContent = `Discount (${Math.round(discountPct*100)}% off)`;
+      document.getElementById('bkDiscountAmt').textContent = `-$${discountAmt.toFixed(2)}`;
+    } else {
+      discountLine.style.display = 'none';
+    }
+
+    document.getElementById('bkTotal').textContent = `$${total.toFixed(2)}`;
+  }
+
+  const bulkDatesContainer = document.getElementById('bulkDatesContainer');
+  const bulkDatesFields = document.getElementById('bulkDatesFields');
+  let lastBulkCount = 0;
+
+  function rebuildBulkDateFields(){
+    const count = Number(bulkCountInput.value);
+    if (!count){
+      bulkDatesContainer.style.display = 'none';
+      bulkDatesFields.innerHTML = '';
+      lastBulkCount = 0;
+      return;
+    }
+    if (count === lastBulkCount) return; // avoid wiping picked dates on unrelated changes
+
+    // Preserve any dates already entered before rebuilding
+    const existingValues = Array.from(bulkDatesFields.querySelectorAll('input[type="date"]')).map(i => i.value);
+
+    bulkDatesFields.innerHTML = '';
+    for (let i = 1; i <= count; i++){
+      const row = document.createElement('div');
+      row.className = 'date-row';
+      row.innerHTML = `
+        <span class="date-label">Lesson ${i}</span>
+        <input type="date" class="bulk-date-input" data-lesson="${i}" required>
+      `;
+      bulkDatesFields.appendChild(row);
+      if (existingValues[i - 1]){
+        row.querySelector('input').value = existingValues[i - 1];
+      }
+    }
+    bulkDatesContainer.style.display = 'block';
+    lastBulkCount = count;
+  }
+
+  bulkAgeInput.addEventListener('input', updateBulkBreakdown);
+  bulkCountInput.addEventListener('change', function(){
+    updateBulkBreakdown();
+    rebuildBulkDateFields();
+  });
+
+  document.getElementById('bulkForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const name = document.getElementById('bulkName').value.trim();
+    const age = document.getElementById('bulkAge').value.trim();
+    const email = document.getElementById('bulkEmail').value.trim();
+    const phone = document.getElementById('bulkPhone').value.trim();
+    const level = document.getElementById('bulkLevel').value;
+    const count = Number(document.getElementById('bulkCount').value);
+    const message = document.getElementById('bulkMessage').value.trim();
+
+    const dateInputs = Array.from(document.querySelectorAll('.bulk-date-input'));
+    if (dateInputs.length !== count || dateInputs.some(i => !i.value)){
+      alert('Please pick a date for each lesson.');
+      return;
+    }
+    const niceDates = dateInputs.map(i => formatDateNice(i.value));
+
+    const rate = priceForAge(age);
+    const subtotal = rate * count;
+    const discountPct = discountForCount(count);
+    const discountAmt = subtotal * discountPct;
+    const total = subtotal - discountAmt;
+
+    const datesListForEmail = niceDates.map((d, i) => `  Lesson ${i + 1}: ${d}`).join('\n');
+
+    // Email to the coach
+    const subject = `Bulk Lesson Request — ${name}`;
+    const bodyLines = [
+      `New bulk lesson request:`,
+      ``,
+      `Name: ${name}`,
+      `Age: ${age}`,
+      `Rate: $${rate}/hour`,
+      `Number of lessons: ${count}`,
+      `Lesson dates:`,
+      datesListForEmail,
+      `Subtotal: $${subtotal.toFixed(2)}`,
+      `Discount: ${discountPct > 0 ? Math.round(discountPct*100) + '% (-$' + discountAmt.toFixed(2) + ')' : 'None'}`,
+      `Total: $${total.toFixed(2)}`,
+      `Email: ${email}`,
+      `Phone: ${phone}`,
+      `Level: ${level}`,
+      `Message: ${message || '(none)'}`
+    ];
+    const body = bodyLines.join('\n');
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(COACH_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailLink, '_blank');
+
+    // Confirmation email to the customer, addressed to themselves
+    const custSubject = `Your On Court lessons — ${count} booked`;
+    const custBodyLines = [
+      `Hi ${name},`,
+      ``,
+      `Your bulk lesson request has been submitted:`,
+      ``,
+      `Lesson dates:`,
+      datesListForEmail,
+      ``,
+      `Rate: $${rate}/hour`,
+      `Subtotal: $${subtotal.toFixed(2)}`,
+      `Discount: ${discountPct > 0 ? Math.round(discountPct*100) + '% (-$' + discountAmt.toFixed(2) + ')' : 'None'}`,
+      `Total cost: $${total.toFixed(2)}`,
+      ``,
+      `This request has also been sent to your coach, who will follow up to confirm exact times and courts for each date.`,
+      ``,
+      `— On Court Tennis Coaching`
+    ];
+    const custBody = custBodyLines.join('\n');
+    const custGmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(custSubject)}&body=${encodeURIComponent(custBody)}`;
+    window.open(custGmailLink, '_blank');
+
+    document.getElementById('bulkConfirm').classList.add('show');
+    document.getElementById('bulkConfirm').scrollIntoView({behavior:'smooth'});
+  });
+</script>
+
+</body>
+</html>
