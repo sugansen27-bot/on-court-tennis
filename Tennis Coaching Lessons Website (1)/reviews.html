@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — On Court Tennis Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --court-green: #1F3A2E;
+    --court-green-deep: #142720;
+    --chalk: #F6F4EC;
+    --ball: #D3E24C;
+    --clay: #C1552E;
+    --ink: #16201A;
+    --line: rgba(22,32,26,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background-color: var(--chalk);
+    background-image:
+      linear-gradient(rgba(31,58,46,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(31,58,46,0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    line-height: 1.55;
+  }
+  h1,h2{ font-family:'Bebas Neue',sans-serif; letter-spacing:0.02em; line-height:0.95; }
+  a{ color:inherit; }
+  .wrap{ max-width: 720px; margin:0 auto; padding: 0 24px; }
+
+  nav{ background: var(--court-green); border-bottom:1px solid rgba(246,244,236,0.15); }
+  nav .wrap{ max-width:1080px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .brand{ color: var(--chalk); font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:0.04em; text-decoration:none;}
+  .brand span{ color: var(--ball); }
+  .back-link{ color: var(--chalk); font-size:14px; font-weight:600; text-decoration:none; opacity:0.85; }
+  .back-link:hover{ opacity:1; }
+
+  header.top{
+    background: radial-gradient(1000px 500px at 15% -20%, #2e5744 0%, var(--court-green) 55%, var(--court-green-deep) 100%);
+    color: var(--chalk);
+    padding: 56px 0 48px;
+  }
+  .eyebrow{ font-size:13px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color: var(--ball); margin-bottom:14px; }
+  header.top h1{ font-size: clamp(38px, 7vw, 58px); }
+  header.top p{ margin-top:14px; color: rgba(246,244,236,0.82); max-width: 54ch; font-size:16px;}
+
+  main{ padding: 48px 0 80px; }
+
+  .form-card{
+    background: #fff; border:1px solid var(--line); border-radius:4px; padding: 36px; margin-bottom: 48px;
+  }
+  .field{ margin-bottom: 22px; }
+  .field label{ display:block; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color: rgba(22,32,26,0.65); margin-bottom:8px; }
+  .field input, .field textarea{
+    width:100%; padding: 13px 14px; border:1px solid rgba(22,32,26,0.2); border-radius:3px;
+    font-family:'Work Sans',sans-serif; font-size:15px; color: var(--ink); background: var(--chalk);
+  }
+  .field input:focus, .field textarea:focus{
+    outline: none; border-color: var(--court-green); box-shadow: 0 0 0 3px rgba(31,58,46,0.12);
+  }
+  .field input[readonly]{ background: rgba(22,32,26,0.06); color: rgba(22,32,26,0.6); cursor:not-allowed; }
+  textarea{ resize: vertical; min-height: 90px; }
+
+  .star-picker{ display:flex; gap:6px; }
+  .star-picker .star{
+    font-size:34px; cursor:pointer; color: rgba(22,32,26,0.2); transition: color .15s ease, transform .1s ease; line-height:1;
+    user-select:none;
+  }
+  .star-picker .star.filled{ color: var(--ball); }
+  .star-picker .star:hover{ transform: scale(1.12); }
+
+  .submit-btn{
+    width:100%; padding: 16px; background: var(--ball); color: var(--court-green-deep);
+    border:none; border-radius:3px; font-weight:700; font-size:16px; cursor:pointer;
+    transition: transform .15s ease;
+  }
+  .submit-btn:hover{ transform: translateY(-2px); }
+
+  .form-note{ margin-top:16px; font-size:13px; color: rgba(22,32,26,0.6); text-align:center; }
+
+  .reviews-heading{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+  .reviews-heading h2{ font-size:28px; }
+  .avg-badge{ font-size:14px; color: rgba(22,32,26,0.65); }
+  .avg-badge strong{ color: var(--court-green); font-size:18px; }
+
+  .review-card{
+    background:#fff; border:1px solid var(--line); border-radius:4px; padding:20px 24px; margin-bottom:14px;
+  }
+  .review-card .stars{ color: var(--ball); font-size:18px; letter-spacing:2px; }
+  .review-card .rname{ font-weight:700; margin-top:6px; }
+  .review-card .rtext{ font-size:14px; color: rgba(22,32,26,0.75); margin-top:6px; }
+  .review-card .rdate{ font-size:12px; color: rgba(22,32,26,0.4); margin-top:8px; }
+
+  .empty-state{ font-size:14px; color: rgba(22,32,26,0.5); text-align:center; padding: 20px 0; }
+
+  footer{ background: var(--court-green-deep); color: rgba(246,244,236,0.55); padding: 26px 0; font-size:13px; text-align:center; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html">ON<span>COURT</span></a>
+    <div style="display:flex; align-items:center; gap:20px;">
+      <a class="back-link" href="index.html">&larr; Back to home</a>
+    </div>
+  </div>
+</nav>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Player feedback</div>
+    <h1>Reviews</h1>
+    <p>See what players and parents are saying, or leave your own rating after a lesson.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <form class="form-card" id="reviewForm" name="reviews" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="reviews">
+      <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+      <div class="field">
+        <label for="rName">Your name</label>
+        <input type="text" id="rName" name="rName" required>
+      </div>
+
+      <div class="field">
+        <label>Rating</label>
+        <div class="star-picker" id="starPicker">
+          <span class="star" data-value="1">&#9733;</span>
+          <span class="star" data-value="2">&#9733;</span>
+          <span class="star" data-value="3">&#9733;</span>
+          <span class="star" data-value="4">&#9733;</span>
+          <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <input type="hidden" id="rRating" name="rRating" required>
+      </div>
+
+      <div class="field">
+        <label for="rText">Your review</label>
+        <textarea id="rText" name="rText" placeholder="How did lessons go?" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit review</button>
+      <p class="form-note">Reviews are permanent once submitted and can't be edited or deleted.</p>
+    </form>
+
+    <div class="reviews-heading">
+      <h2>What players are saying</h2>
+      <div class="avg-badge" id="avgBadge"></div>
+    </div>
+    <div id="reviewsList"></div>
+    <p class="empty-state" id="emptyState">No reviews yet — be the first to leave one!</p>
+  </div>
+</main>
+
+<footer>
+  © 2026 On Court Tennis Coaching — private lessons with Coach Sugan.
+</footer>
+
+<script>
+  const STORAGE_KEY = 'oncourt_reviews';
+
+  // ---- Star picker ----
+  const stars = document.querySelectorAll('#starPicker .star');
+  const ratingInput = document.getElementById('rRating');
+  let currentRating = 0;
+
+  function paintStars(value){
+    stars.forEach(s => {
+      s.classList.toggle('filled', Number(s.dataset.value) <= value);
+    });
+  }
+  stars.forEach(s => {
+    s.addEventListener('click', () => {
+      currentRating = Number(s.dataset.value);
+      ratingInput.value = currentRating;
+      paintStars(currentRating);
+    });
+    s.addEventListener('mouseenter', () => paintStars(Number(s.dataset.value)));
+    s.addEventListener('mouseleave', () => paintStars(currentRating));
+  });
+
+  // ---- Load & save reviews ----
+  function loadReviews(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch(e){ return []; }
+  }
+  function saveReviews(list){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderReviews(){
+    const list = loadReviews();
+    const container = document.getElementById('reviewsList');
+    const emptyState = document.getElementById('emptyState');
+    const avgBadge = document.getElementById('avgBadge');
+    container.innerHTML = '';
+
+    if (list.length === 0){
+      emptyState.style.display = 'block';
+      avgBadge.textContent = '';
+      return;
+    }
+    emptyState.style.display = 'none';
+
+    const avg = (list.reduce((sum, r) => sum + r.rating, 0) / list.length).toFixed(1);
+    avgBadge.innerHTML = `<strong>${avg}</strong> / 5 \u00b7 ${list.length} review${list.length === 1 ? '' : 's'}`;
+
+    list.slice().reverse().forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      const starStr = '\u2605'.repeat(r.rating) + '\u2606'.repeat(5 - r.rating);
+      card.innerHTML = `
+        <div class="stars">${starStr}</div>
+        <div class="rname">${escapeHtml(r.name)}</div>
+        <div class="rtext">${escapeHtml(r.text)}</div>
+        <div class="rdate">${r.date}</div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // ---- Submit handler ----
+  document.getElementById('reviewForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const name = document.getElementById('rName').value.trim();
+    const text = document.getElementById('rText').value.trim();
+    const rating = currentRating;
+
+    if (!rating){
+      alert('Please select a star rating.');
+      return;
+    }
+
+    const list = loadReviews();
+    list.push({
+      name,
+      text,
+      rating,
+      date: new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' })
+    });
+    saveReviews(list);
+
+    // Also send to Netlify Forms in the background so the coach gets a copy,
+    // without navigating away from the page.
+    const form = document.getElementById('reviewForm');
+    const formData = new FormData(form);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    }).catch(() => {});
+
+    form.reset();
+    currentRating = 0;
+    paintStars(0);
+    renderReviews();
+  });
+
+  renderReviews();
+</script>
+
+</body>
+</html>
