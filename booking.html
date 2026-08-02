@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Lesson — Courtside Tennis Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --court-green: #1F3A2E;
+    --court-green-deep: #142720;
+    --chalk: #F6F4EC;
+    --ball: #D3E24C;
+    --clay: #C1552E;
+    --ink: #16201A;
+    --line: rgba(22,32,26,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--chalk);
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    line-height: 1.55;
+  }
+  h1,h2,.score{ font-family:'Bebas Neue',sans-serif; letter-spacing:0.02em; line-height:0.95; }
+  a{ color:inherit; }
+  .wrap{ max-width: 720px; margin:0 auto; padding: 0 24px; }
+
+  nav{ background: var(--court-green); border-bottom:1px solid rgba(246,244,236,0.15); }
+  nav .wrap{ max-width:1080px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .brand{ color: var(--chalk); font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:0.04em; text-decoration:none;}
+  .brand span{ color: var(--ball); }
+  .back-link{ color: var(--chalk); font-size:14px; font-weight:600; text-decoration:none; opacity:0.85; }
+  .back-link:hover{ opacity:1; }
+
+  header.top{
+    background: radial-gradient(1000px 500px at 15% -20%, #274a3a 0%, var(--court-green) 55%, var(--court-green-deep) 100%);
+    color: var(--chalk);
+    padding: 56px 0 48px;
+  }
+  .eyebrow{ font-size:13px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color: var(--ball); margin-bottom:14px; }
+  header.top h1{ font-size: clamp(38px, 7vw, 58px); }
+  header.top p{ margin-top:14px; color: rgba(246,244,236,0.82); max-width: 54ch; font-size:16px;}
+
+  main{ padding: 48px 0 80px; }
+
+  .form-card{
+    background: #fff; border:1px solid var(--line); border-radius:4px; padding: 36px;
+  }
+  .field{ margin-bottom: 22px; }
+  .field label{ display:block; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color: rgba(22,32,26,0.65); margin-bottom:8px; }
+  .field input, .field select, .field textarea{
+    width:100%; padding: 13px 14px; border:1px solid rgba(22,32,26,0.2); border-radius:3px;
+    font-family:'Work Sans',sans-serif; font-size:15px; color: var(--ink); background: var(--chalk);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline: none; border-color: var(--court-green); box-shadow: 0 0 0 3px rgba(31,58,46,0.12);
+  }
+  .row-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width:560px){ .row-2{ grid-template-columns:1fr; } }
+
+  textarea{ resize: vertical; min-height: 90px; }
+
+  .submit-btn{
+    width:100%; padding: 16px; background: var(--ball); color: var(--court-green-deep);
+    border:none; border-radius:3px; font-weight:700; font-size:16px; cursor:pointer;
+    transition: transform .15s ease;
+  }
+  .submit-btn:hover{ transform: translateY(-2px); }
+  .submit-btn:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
+
+  .form-note{ margin-top:16px; font-size:13px; color: rgba(22,32,26,0.6); text-align:center; }
+  .form-note a{ color: var(--court-green); font-weight:600; }
+
+  .confirm{
+    display:none; background: var(--court-green-deep); color: var(--chalk); border-radius:4px;
+    padding: 32px; margin-top: 24px; text-align:center;
+  }
+  .confirm.show{ display:block; }
+  .confirm h2{ font-size: 28px; color: var(--ball); margin-bottom: 10px; }
+  .confirm p{ color: rgba(246,244,236,0.85); font-size:15px; }
+
+  .safety-note{
+    margin-top: 28px; font-size: 13px; color: rgba(22,32,26,0.6);
+    border-left: 3px solid var(--clay); padding: 4px 0 4px 14px;
+  }
+
+  footer{ background: var(--court-green-deep); color: rgba(246,244,236,0.55); padding: 26px 0; font-size:13px; text-align:center; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html">COURT<span>SIDE</span></a>
+    <a class="back-link" href="index.html">&larr; Back to home</a>
+  </div>
+</nav>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Book a private lesson</div>
+    <h1>Sign up for a lesson</h1>
+    <p>Fill this out and it'll open your email app with everything filled in — just hit send and I'll get back to you to set up a time and court.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <form class="form-card" id="bookingForm">
+      <div class="row-2">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="4" max="99" required>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="level">Playing level</label>
+        <select id="level" name="level" required>
+          <option value="" disabled selected>Select a level</option>
+          <option value="Beginner — never played or very new">Beginner — never played or very new</option>
+          <option value="Intermediate — comfortable rallying">Intermediate — comfortable rallying</option>
+          <option value="Advanced — plays matches/league or team">Advanced — plays matches/league or team</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Anything else? (optional)</label>
+        <textarea id="message" name="message" placeholder="Preferred days/times, goals for lessons, etc."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Send lesson request</button>
+      <p class="form-note">This opens your email app with a message ready to send to your coach — nothing is submitted automatically.</p>
+    </form>
+
+    <div class="confirm" id="confirm">
+      <h2>Almost done!</h2>
+      <p>Your email app should have opened with your request filled in. Just hit send there and your coach will follow up to confirm a time and court.</p>
+    </div>
+
+    <p class="safety-note">Parents/guardians: please review and send this request together with your child, and confirm lesson times and locations directly with the coach before the first meetup.</p>
+  </div>
+</main>
+
+<footer>
+  © 2026 Courtside Tennis Coaching — $15/hour private lessons.
+</footer>
+
+<script>
+  const COACH_EMAIL = "youremail@example.com"; // TODO: replace with your real email
+
+  document.getElementById('bookingForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const level = document.getElementById('level').value;
+    const message = document.getElementById('message').value.trim();
+
+    const subject = `Lesson Request — ${name}`;
+    const bodyLines = [
+      `New private lesson request:`,
+      ``,
+      `Name: ${name}`,
+      `Age: ${age}`,
+      `Email: ${email}`,
+      `Phone: ${phone}`,
+      `Level: ${level}`,
+      `Message: ${message || '(none)'}`
+    ];
+    const body = bodyLines.join('\n');
+
+    const mailtoLink = `mailto:${COACH_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+
+    document.getElementById('confirm').classList.add('show');
+    document.getElementById('confirm').scrollIntoView({behavior:'smooth'});
+  });
+</script>
+
+</body>
+</html>
